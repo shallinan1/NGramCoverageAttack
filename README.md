@@ -1,7 +1,10 @@
 # N-Gram Coverage Attack
 
-This is the repository for the CoLM 2025 paper "The Surprising Effectiveness of Membership Inference with Simple N-Gram Coverage".
+This is the repository for the CoLM 2025 paper ["The Surprising Effectiveness of Membership Inference with Simple N-Gram Coverage"](https://arxiv.org/abs/2508.09603)).
 
+<p align="center">
+  <img src="fig1.png" alt="drawing" width="99%"/>
+</p>
 ## Setup
 
 Create conda environment:
