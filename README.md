@@ -5,6 +5,7 @@ This is the repository for the CoLM 2025 paper ["The Surprising Effectiveness of
 <p align="center">
   <img src="fig1.png" alt="drawing" width="99%"/>
 </p>
+
 ## Setup
 
 Create conda environment:
