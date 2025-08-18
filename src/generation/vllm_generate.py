@@ -96,8 +96,6 @@ class ModelGenerator:
             download_dir=cache_dir,
             gpu_memory_utilization=gpu_memory_utilization,
             max_model_len = 2048, # Maximum sequence length - set to 2048 for memory efficiency with large models
-            # dtype="float32", # vllm sets fp32 to fp16 if this is auto 
-            # swap_space=10 #GiB # Getting error if we have dtype not auto: "Aborted due to the lack of CPU swap space. Please increase the swap space to avoid this error."
         )
         
         # Create the tokenizer
@@ -108,7 +106,7 @@ class ModelGenerator:
             padding_side="left",
             trust_remote_code=True,
             add_bos_token=add_bos_token
-        ) # TODO Check this for LLama models - used to not add bos for some variants
+        )
 
     def generate_vllm(
         self,
