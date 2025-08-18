@@ -5,3 +5,10 @@ matplotlib
 scikit-learn
 accelerate
 openai
+python-dotenv
+datasets
+Levenshtein
+requests
+tqdm
+wikitextparser
+nltk

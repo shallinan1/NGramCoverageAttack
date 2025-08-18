@@ -1,8 +1,25 @@
-# NGramCoverageAttack
+# N-Gram Coverage Attack
 
 This is the repository for the CoLM 2025 paper "The Surprising Effectiveness of Membership Inference with Simple N-Gram Coverage".
 
-## Dataset
+## Setup
+
+Create conda environment:
+```bash
+conda create -n mia python=3.10
+conda activate mia
+pip install -r requirements.txt
+```
+
+Create a `.env` file in the root directory of this repo with the following variables:
+
+```
+OPENAI_API_KEY=your_openai_api_key_here
+CACHE_PATH=/path/to/your/cache
+HF_TOKEN=your_huggingface_token_here
+```
+
+## Released Datasets
 
 This paper introduces WikiMIA 2024 Hard, available at: https://huggingface.co/datasets/hallisky/wikiMIA-2024-hard
 
