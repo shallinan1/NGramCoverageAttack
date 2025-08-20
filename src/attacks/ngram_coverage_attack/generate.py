@@ -2,9 +2,7 @@
 Text Generation Module for N-Gram Coverage Attack
 
 This module implements the generation component of the N-Gram Coverage Attack method
-for membership inference attacks, as described in:
-"The Surprising Effectiveness of Membership Inference with Simple N-Gram Coverage"
-(https://arxiv.org/abs/2508.09603)
+for membership inference attacks, as described in our paper.
 
 The module generates text continuations using either OpenAI API or vLLM models for
 evaluating membership inference vulnerabilities. It supports two generation pipelines:
