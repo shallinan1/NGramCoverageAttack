@@ -56,9 +56,6 @@ def split_text_and_newlines(text: str) -> Tuple[List[str], List[int]]:
 
     return texts, newline_counts
 
-def extract_chunk_words(text, start_word, num_words):
-    pass # TODO fill
-
 def extract_chunk_sentence(text: str, start_sentence: int, num_sentences: int) -> Tuple[Optional[str], str]:
     """
     Extract a chunk of text based on sentence boundaries while preserving formatting.
