@@ -1,13 +1,30 @@
 """
-Utilities for text processing and chunking in the n-gram coverage attack.
+Utilities for text processing and similarity computation in the n-gram coverage attack.
 
-This module provides functions for extracting specific portions of text based on
-sentence boundaries while preserving the original formatting (newlines).
+This module provides two main categories of functionality:
 
-Requirements:
-    Before using this module, you must download the NLTK punkt tokenizer:
-    >>> import nltk
-    >>> nltk.download('punkt')
+1. Text Processing (for generation in step 1):
+   - Sentence-based text extraction with formatting preservation
+   - Newline tracking for text reconstruction
+   - Prompt generation from text snippets
+
+2. Similarity Computation (for n-gram coverage computation in step 2):
+   - Longest common substring computation (character-level)
+   - Longest common subsequence computation (token-level)
+   - Dynamic programming algorithms for efficient text similarity
+   - Multiprocessing wrappers for large-scale analysis
+
+Dependencies:
+    - NLTK punkt tokenizer: nltk.download('punkt')
+    - pylcs library for efficient longest common substring computation
+
+Usage:
+    Text extraction for prompt generation:
+    >>> prompt, rest = extract_chunk_sentence(text, start_idx=0, num_sentences=2)
+    
+    Similarity computation:
+    >>> max_length = find_max_common_sublist_length(tokens_a, tokens_b)
+    >>> substring_len = longest_substring(text, source_docs)
 """
 
 from nltk import sent_tokenize
@@ -168,7 +185,106 @@ def extract_chunk_sentence(text: str, start_sentence: int, num_sentences: int) -
     return prompt_text, rest_of_text
 
 
-def run_tests():
+def find_max_common_sublist_length(A: List, B: List) -> int:
+    """Compute the length of the longest common contiguous sublist using dynamic programming.
+    
+    Uses space-optimized DP with O(m) space complexity and O(n*m) time complexity.
+    
+    Args:
+        A: First list of comparable elements
+        B: Second list of comparable elements
+    
+    Returns:
+        Length of the longest common contiguous sublist
+    """
+
+    n = len(A); m = len(B)
+    
+    # Auxiliary dp[] list
+    dp = [0] * (m + 1)
+    maxm = 0
+ 
+    # Updating the dp[] list in Bottom Up approach
+    for i in range(n - 1, -1, -1):
+        prev = 0
+        for j in range(m - 1, -1, -1):
+            temp = dp[j]
+            if A[i] == B[j]:
+                dp[j] = prev + 1
+                maxm = max(maxm, dp[j])
+            else:
+                dp[j] = 0
+            prev = temp
+ 
+    return maxm  # Return the maximum length
+
+
+def process_single_sublist_pair(g_list_tokenized: List[List[str]], 
+                               source_docs_tokenized: List[List[str]]) -> List[int]:
+    """Process multiple generated texts against source documents for longest sublist.
+    
+    Args:
+        g_list_tokenized: List of tokenized generated texts
+        source_docs_tokenized: List of tokenized source documents
+    
+    Returns:
+        List of maximum sublist lengths for each generated text
+    """
+
+    return [longest_sublist(g, source_docs_tokenized) for g in g_list_tokenized]
+
+def longest_sublist(text_tokenized: List[str], 
+                   source_docs_tokenized: List[List[str]]) -> int:
+    """Find the longest common sublist between text and any source document.
+    
+    Args:
+        text_tokenized: Tokenized text to analyze
+        source_docs_tokenized: List of tokenized source documents to compare against
+    
+    Returns:
+        Maximum length of common sublist found across all source documents
+    """
+    longest_sublist_overall = 0
+    for s in source_docs_tokenized:
+        match_length = find_max_common_sublist_length(text_tokenized, s)
+        longest_sublist_overall = max(longest_sublist_overall, match_length)
+    
+    return longest_sublist_overall
+
+def process_single_substring_pair(g_list: List[str], 
+                                 source_docs: List[str]) -> List[int]:
+    """Process multiple generated texts against source documents for longest substring.
+    
+    Args:
+        g_list: List of generated text strings
+        source_docs: List of source document strings
+    
+    Returns:
+        List of maximum substring lengths for each generated text
+    """
+
+    return [longest_substring(g, source_docs) for g in g_list]
+
+def longest_substring(text: str, source_docs: List[str]) -> int:
+    """Find the longest common substring between text and any source document.
+    
+    Uses the pylcs library for efficient computation.
+    
+    Args:
+        text: Text string to analyze
+        source_docs: List of source document strings to compare against
+    
+    Returns:
+        Maximum length of common substring found across all source documents
+    """
+    longest_substring_overall = 0
+    for s in source_docs:
+        match_length = lcs_string_length(text, s)
+        longest_substring_overall = max(longest_substring_overall, match_length)
+    
+    return longest_substring_overall
+
+def run_tests_extract_chunk_sentence():
     """Run comprehensive tests for the text extraction functions."""
     
     # Test data with various formatting scenarios
@@ -215,4 +331,4 @@ def run_tests():
 
 
 if __name__ == "__main__":
-    run_tests()
+    run_tests_extract_chunk_sentence()
