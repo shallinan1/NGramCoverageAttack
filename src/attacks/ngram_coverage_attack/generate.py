@@ -60,8 +60,8 @@ from datetime import datetime
 from src.attacks.ngram_coverage_attack.utils import extract_chunk_sentence
 import asyncio
 from src.generation.openai_parallel_generate import openai_parallel_generate, requests_limits_dict, requests_url_dict
-from src.utils import remove_first_sentence_if_needed
-from src.experiments.utils import zigzag_append, chunk_list, remove_last_n_words, bool_to_first_upper
+from src.utils.task_utils import remove_first_sentence_if_needed
+from src.utils.experiment_utils import zigzag_append, chunk_list, remove_last_n_words, bool_to_first_upper
 import logging
 
 logging.basicConfig(level=logging.INFO)

@@ -53,7 +53,7 @@ from sklearn.metrics import roc_curve, auc
 
 # Local imports
 from src.utils.io_utils import load_jsonl
-from src.experiments.utils import plot_roc_curve
+from src.utils.experiment_utils import plot_roc_curve
 
 # Load environment variables
 load_dotenv()
